@@ -9,9 +9,10 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run: cd frontend
-      - run: npm init -y
       - run: npm install
-      - run: npm run build
+      - run: 
+          working_directory: ./frontend
+          command: npm run build
             
       - save_cache:
           paths: [frontend/node_modules]
