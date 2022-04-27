@@ -93,7 +93,7 @@ jobs:
           command: npm install && npm audit fix --audit-level=critical --force
       - run:
           working_directory: ./backend
-          command: npm audit --audit-level=critical
+          command: npm i audit --audit-level=critical
       
 workflows:
   default:
