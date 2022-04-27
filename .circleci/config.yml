@@ -43,10 +43,10 @@ jobs:
       - checkout
       - run: cd  frontend
       - run: 
-          working_directory: ./backend
+          working_directory: ./frontend
           command: npm install
       - run:
-          working_directory: ./backend
+          working_directory: ./frontend
           command: npm run test
     
                 
