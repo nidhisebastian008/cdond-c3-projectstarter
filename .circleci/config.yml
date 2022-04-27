@@ -77,7 +77,7 @@ jobs:
           command: npm install && npm audit fix --audit-level=critical --force
       - run: 
           working_directory: ./frontend
-          command: npm audit --audit-level=critical
+          command: npm i audit --audit-level=critical
 
   scan-backend:
     docker:
