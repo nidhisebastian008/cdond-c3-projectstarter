@@ -9,7 +9,7 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run: cd frontend
-      - run: npm init
+      - run: npm init -y
       - run: npm install
       - run: npm run build
             
@@ -25,7 +25,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run: cd backend
-      - run: npm init
+      - run: npm init -y
       - run: npm install
       - run: npm run build
             
