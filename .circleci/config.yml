@@ -26,9 +26,10 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run: cd backend
-      - run: npm init -y
       - run: npm install
-      - run: npm run build
+      - run:
+          working_directory: ./backend
+          command: npm run build
             
       - save_cache:
           paths: [backend/node_modules]
