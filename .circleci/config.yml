@@ -72,6 +72,9 @@ jobs:
           keys: [frontend-build]
       - run: cd frontend
       - run: npm install
+      -run:
+        working_directory: ./backend
+        command: npm audit fix --audit-level=critical --force
       - run: 
           working_directory: ./frontend
           command: npm audit --audit-level=critical
@@ -85,10 +88,13 @@ jobs:
           keys: [backend-build]
       - run: cd backend
       - run: npm install
+      -run:
+        working_directory: ./backend
+        command: npm audit fix --audit-level=critical --force
       - run:
           working_directory: ./backend
           command: npm audit --audit-level=critical
-    
+      
 workflows:
   default:
     jobs:
