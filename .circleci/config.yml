@@ -86,8 +86,8 @@ jobs:
       - run: cd backend
       - run: npm install
       - run:
-        working_directory: ./backend
-        command: npm audit --audit-level=critical
+          working_directory: ./backend
+          command: npm audit --audit-level=critical
     
 workflows:
   default:
