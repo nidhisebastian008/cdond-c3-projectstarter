@@ -71,7 +71,7 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run: cd frontend
-      - run: npm install & npm install oauth-sign@^0.9.0
+      - run: npm install && npm install oauth-sign@^0.9.0
       - run:
           working_directory: ./backend
           command: npm audit fix --audit-level=critical --force
