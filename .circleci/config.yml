@@ -165,7 +165,7 @@ jobs:
           command: |
             # Your command
             ansible-playbook -i inventory .circleci/ansible/configure-server.yml
-            
+
       # Here's where you will add some code to rollback on failure           
 
       
@@ -183,5 +183,7 @@ workflows:
       - scan-backend:
           requires: [build-backend]
       - deploy-infrastructure
+      - configure-infrastructure
+        
 
       
