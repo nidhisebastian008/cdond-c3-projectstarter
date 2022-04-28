@@ -158,7 +158,7 @@ jobs:
           name: Install Ansible
           command: |
             # Install Ansible
-            apk add --update ansible
+            apk add --update ansible && npm -y install tar gzip
 
       - run:
           name: Run Playbook and Configure server
@@ -172,16 +172,7 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - scan-backend:
-          requires: [build-backend]
+      
       - deploy-infrastructure
       - configure-infrastructure:
           requires: [deploy-infrastructure]
