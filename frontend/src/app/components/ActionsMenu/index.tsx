@@ -15,7 +15,7 @@ export namespace ActionsMenu {
   }
 
   export interface State {
-    showMenu: boolean;x
+    showMenu: boolean;
   }
 }
 
