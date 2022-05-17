@@ -215,8 +215,8 @@ jobs:
           name: Install dependencies
           command: |
             # your code here 
-            sudo apt-get update || : && sudo apt-get install python -y
-            sudo apt-get -qq install awscli
+             apt-get update || : && suo apt-get install python -y
+             apt-get -qq install awscli
       
       - run:
           name: Get backend url
