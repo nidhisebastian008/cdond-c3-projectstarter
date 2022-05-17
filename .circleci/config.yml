@@ -214,8 +214,8 @@ jobs:
       - run:
           name: Install Ansible
           command: |
-          # Install Ansible
-          apk add --update ansible 
+            # Install Ansible
+            apk add --update ansible 
       
       - run:
           name: Get backend url
