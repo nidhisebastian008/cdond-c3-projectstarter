@@ -215,7 +215,8 @@ jobs:
           name: Install Ansible
           command: |
             # Install Ansible
-            apk add --update ansible 
+            sudo apt-get update || : && sudo apt-get install python -y
+            sudo apt-get -qq install awscli 
       
       - run:
           name: Get backend url
