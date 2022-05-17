@@ -215,7 +215,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here 
-              apk add --update ansible
+              apk add --update ansible  yum -y  install tar gzip
       - run:
           name: Get backend url
           command: |
