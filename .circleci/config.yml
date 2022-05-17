@@ -212,11 +212,10 @@ jobs:
      
       
       - run:
-          name: Install dependencies
+          name: Install Ansible
           command: |
-            # your code here 
-             apt-get update || : && suo apt-get install python -y
-             apt-get -qq install awscli
+          # Install Ansible
+          apk add --update ansible 
       
       - run:
           name: Get backend url
