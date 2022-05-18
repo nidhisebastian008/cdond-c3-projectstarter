@@ -237,7 +237,7 @@ workflows:
   default:
     jobs:
       
-      - configure-infrastructure:
+      - configure-infrastructure
           
       - run-migrations:
           requires: [configure-infrastructure]
