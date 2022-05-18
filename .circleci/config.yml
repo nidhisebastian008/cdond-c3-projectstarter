@@ -139,7 +139,7 @@ jobs:
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
-            --output text >> inventory
+            --output text >> inventory.txt
             # Your code here
       - persist_to_workspace:
           root: ~/
@@ -236,21 +236,7 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-          
-      - scan-frontend:
-          requires: [build-frontend]
-          
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-  
+      
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
