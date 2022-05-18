@@ -1,0 +1,41 @@
+---
+  - name: Extract artifact.tar.gz file to EC2 Instance 
+    unarchive:  
+      src:  ../../backend/artifacts.tar.gz
+      dest: /home/ubuntu/
+      owner: ubuntu 
+      remote_src: no
+ 
+  - name: "install dependencies Nodejs NPM"
+    become: yes
+    apt:
+      name: ["nodejs", "npm"]
+      state: present
+      update_cache: yes   
+
+
+  - name: "update apt packages."
+    become: yes
+    become_method: sudo
+    apt:
+      update_cache: yes
+
+  - name: "install pm2"
+    become: yes
+    npm:
+      name: pm2
+      global: yes
+      production: yes
+      state: present
+         
+  - name: "Start Backend App : Check whether Port:3030 is Open"
+    become: yes
+    become_user: ubuntu  
+    shell: | 
+        cd /home/ubuntu/dist
+        pm2 list 
+        pm2 stop default 
+        pm2 start main.js -n 'udapeople-backend'
+        pm2 status all
+        
+    ignore_errors: true
