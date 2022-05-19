@@ -1,8 +1,8 @@
 ---
   - name: Extract artifact.tar.gz file to EC2 Instance 
     unarchive:  
-      src:  backend/artifacts.tar.gz
-      dest: /home/ubuntu/
+      src:  /root/project/artifact.tar.gz
+      dest: /root/backend
       owner: ubuntu 
       remote_src: no
  
