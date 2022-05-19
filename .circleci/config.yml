@@ -139,7 +139,7 @@ jobs:
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
-            --output text >> >> .circleci/ansible/temp.txt 
+            --output text >> .circleci/ansible/temp.txt 
             cp .circleci/ansible/temp.txt .circleci/ansible/inventory.txt
             cat .circleci/ansible/temp.txt
             cat .circleci/ansible/inventory.txt
