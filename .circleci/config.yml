@@ -140,7 +140,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
             --output text )
-            printf "[web]%s\n" $BACKEND_IP > .circleci/ansible/inventory.txt
+            printf "[web]\n%s" $BACKEND_IP > .circleci/ansible/inventory.txt
             
           #  exit 1
             # Your code here
