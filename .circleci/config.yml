@@ -139,7 +139,11 @@ jobs:
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
-            --output text >> inventory.txt
+            --output text >> >> .circleci/ansible/temp.txt 
+            cp .circleci/ansible/temp.txt .circleci/ansible/inventory.txt
+            cat .circleci/ansible/temp.txt
+            cat .circleci/ansible/inventory.txt
+          #  exit 1
             # Your code here
       - persist_to_workspace:
           root: ~/
@@ -282,7 +286,7 @@ jobs:
             cd ..
             # Zip the directory
             pwd
-            echo "nidhi-------"
+            echo "present workdir-------"
             tar -C backend -czvf artifact.tar.gz .
             echo "nidhi-------"
             cd .circleci/ansible
@@ -294,7 +298,29 @@ jobs:
 workflows:
   default:
     jobs:
-      - deploy-backend
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+          
+      - scan-frontend:
+          requires: [build-frontend]
+          
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+            
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
           
      
           
