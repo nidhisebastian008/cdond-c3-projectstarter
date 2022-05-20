@@ -6,13 +6,10 @@
       dest: /home/ubuntu 
       remote_src: no
       mode: 755
-      
-  - name: Install packages based on package.json.
-    npm:
-      path: /home/ubuntu
 
-  - name: start app
-    become: yes
-    shell: |
-      pm2 stop default
-      pm2 start npm -- start
+  - name: "executing node"
+    become: true
+    command: |
+      cd /home/ubuntu/backend
+      pm2 start npm --name backend -- start
+      pm2 ls
