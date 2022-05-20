@@ -215,13 +215,17 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-      - run: cd backend
+      - run:
+          working_directory: ./backend
+          command: |
+          npm install
+          cd backend
       - run:
           working_directory: ./backend
           command: |
           sudo apt-get update || : && sudo apt-get install python -y
           sudo apt-get -qq install awscli 
-          npm install
+          
       - run:
           name: Run migrations
           working_directory: ./backend
