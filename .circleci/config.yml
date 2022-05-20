@@ -328,7 +328,8 @@ jobs:
             # Zip the directory
             pwd
             echo "present workdir-------"
-            tar -C backend -czf artifact.tar.gz .
+            tar -C backend -czf artifact.tar.gz
+            ls
             echo "nidhi-------"
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
