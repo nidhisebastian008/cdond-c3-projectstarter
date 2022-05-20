@@ -13,6 +13,9 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            # Delete files from bucket
+            echo "s3://udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+            aws s3 rm s3://udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
             echo "Destroying environment: << parameters.workflow_id >> "
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} && udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
   revert-migrations:
@@ -215,7 +218,10 @@ jobs:
       - run: cd backend
       - run:
           working_directory: ./backend
-          command: npm install
+          command: |
+          sudo apt-get update || : && sudo apt-get install python -y
+          sudo apt-get -qq install awscli 
+          npm install
       - run:
           name: Run migrations
           working_directory: ./backend
