@@ -296,18 +296,27 @@ jobs:
               fingerprints: ["b5:ef:48:4a:93:20:46:07:2c:da:2e:08:a3:59:fd:68"] 
       
       # Add ssh keys with fingerprint
-      
+      - attach_workspace:
+          at: ~/
       - restore_cache:
           keys: [backend-build]
 
-      - attach_workspace:
-          at: ~/project/.circleci/ansible
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
-            apk add --update ansible
-            pip install awscli --upgrade
-            apk add --update nodejs npm           
+                apk add --no-cache \
+                python3 \
+                py3-pip \
+                && pip3 install --upgrade pip \
+                && pip3 install \
+                awscli \
+                && rm -rf /var/cache/apk/*
+                apk add --update ansible
+                apk add --update curl
+                apk add --update nodejs
+                apk add --update npm
+                apk add --update tar                        
+                apk add --update gzip            
       # attach workspace
       - run:
           name: Deploy backend
