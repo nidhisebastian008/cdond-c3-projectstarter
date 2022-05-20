@@ -441,7 +441,7 @@ jobs:
           command: |
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
-              echo "no delete possible"
+              echo "no old stack present"
 
             else
               aws s3 rm s3://udapeople-${OldWorkflowID} --recursive
