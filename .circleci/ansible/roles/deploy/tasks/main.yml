@@ -1,6 +1,7 @@
 ---
   - name: Extract artifact.tar.gz file to EC2 Instance 
-    unarchive:  
+    unarchive:
+      become_method: sudo  
       src:  /root/project/artifact.tar.gz
       dest: /root/backend
       owner: ubuntu 
