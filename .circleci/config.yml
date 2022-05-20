@@ -218,8 +218,9 @@ jobs:
       - run:
           working_directory: ./backend
           command: |
-          npm install
-          cd backend
+            cd backend
+            npm install
+          
       - run:
           working_directory: ./backend
           command: |
