@@ -218,7 +218,8 @@ jobs:
       - run:
           working_directory: ./backend
           command: |
-            cd backend
+            pwd
+            echo "pwd" pwd
             npm install
           
       - run:
