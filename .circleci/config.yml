@@ -215,7 +215,7 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-       - run:
+      - run:
           command: |
             sudo apt-get update || : && sudo apt-get install python -y
             sudo apt-get -qq install awscli
