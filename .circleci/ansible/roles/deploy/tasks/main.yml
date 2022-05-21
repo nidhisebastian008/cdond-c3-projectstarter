@@ -1,11 +1,10 @@
 ---
-  - name: Extract artifact.tar.gz file to EC2 Instance 
+  - name: copy
     become: true
-    unarchive:
-      src:  ~/project/artifact.tar.gz
-      dest: /home/ubuntu 
-      remote_src: no
-      mode: 755
+    copy:
+      src:  artifact.tar.gz
+      dest: /home/ubuntu/artifact.tar.gz 
+      
 
   - name: Start PM2
     become: true
