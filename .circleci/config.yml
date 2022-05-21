@@ -478,7 +478,8 @@ workflows:
       #     requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
-      - deploy-frontend
+      - deploy-frontend:
+            requires: [deploy-infrastructure] # remove this before full pl!!!!!!!!!!!!
           # requires: [run-migrations]
       # - deploy-backend:
       #     requires: [configure-infrastructure]
