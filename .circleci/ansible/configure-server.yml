@@ -11,18 +11,6 @@
     - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
     - ansible_stdout_callback: yaml
-
-  pre_tasks:
-    - name: "wait 600 seconds for target connection to become reachable/usable."
-      wait_for_connection:
-
-      # Your code here
-
-    - name: "install python for Ansible."
-      raw: sudo apt install python3.8
-      # Your code here
-
-  # Get the environment variables from CircleCI and add to the EC2 instance
 - name: "update apt packages."
   become: yes
   apt:
@@ -47,6 +35,18 @@
     global: yes
     production: yes
     state: present
+  pre_tasks:
+    - name: "wait 600 seconds for target connection to become reachable/usable."
+      wait_for_connection:
+
+      # Your code here
+
+    - name: "install python for Ansible."
+      raw: sudo apt install python3.8
+      # Your code here
+
+  # Get the environment variables from CircleCI and add to the EC2 instance
+
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
     # Add more env vars here
