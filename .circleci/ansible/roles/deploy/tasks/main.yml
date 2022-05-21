@@ -1,0 +1,18 @@
+---
+  - name: Extract artifact.tar.gz file to EC2 Instance 
+    become: true
+    unarchive:
+      src:  ~/project/artifact.tar.gz
+      dest: /home/ubuntu 
+      remote_src: no
+      mode: 755
+
+  - name: Start PM2
+    become: true
+    shell: |
+      cd /home/ubuntu/
+      tar xzvf artifact.tar.gz
+      cd backend
+      npm install
+      npm run build
+      pm2 start npm -- start
