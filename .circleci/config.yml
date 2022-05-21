@@ -152,30 +152,30 @@ jobs:
       - checkout
       # Checkout code from git
       - run:  yum -y  install tar gzip
-      # - run:
-      #     name: Ensure back-end infrastructure exists
-      #     command: |
-      #       aws cloudformation deploy     --template-file .circleci/files/backend.yml     --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"     --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"      --tags project=udapeople
+      - run:
+          name: Ensure back-end infrastructure exists
+          command: |
+            aws cloudformation deploy     --template-file .circleci/files/backend.yml     --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"     --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"      --tags project=udapeople
               
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy     --template-file .circleci/files/frontend.yml     --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"     --parameter-overrides ID="frontend-${CIRCLE_WORKFLOW_ID:0:7}"      --tags project=udapeople
-      # - run:
-      #     name: Add back-end ip to ansible inventory
-      #     command: |
-      #       export BACKEND_IP=$(aws ec2 describe-instances \
-      #       --query 'Reservations[*].Instances[*].PublicIpAddress' \
-      #       --filters "Name=tag:project,Values=udapeople" \
-      #       --output text )
-      #       printf "[web]\n%s" $BACKEND_IP > .circleci/ansible/inventory.txt
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:project,Values=udapeople" \
+            --output text )
+            printf "[web]\n%s" $BACKEND_IP > .circleci/ansible/inventory.txt
             
           #  exit 1
             # Your code here
-      # - persist_to_workspace:
-      #     root: ~/
-      #     paths:
-      #       - project/.circleci/ansible/inventory.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure 
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
@@ -368,23 +368,23 @@ jobs:
                 apk add --update tar                        
                 apk add --update gzip                      
             # your code here
-      # - run:
-      #     name: Get backend url
-      #     command: |
-      #       # your code here
-      #       # Fetch and prepare the BACKEND_IP env var
-      #        export BACKEND_IP=$(aws ec2 describe-instances \
-      #       --query 'Reservations[*].Instances[*].PublicIpAddress' \
-      #       --filters "Name=tag:project,Values=udapeople" \
-      #       --output text )
-      #       export API_URL="http://${BACKEND_IP}:3030"
-      #       echo "${API_URL}"
-      #       if curl "${API_URL}/api/status" | grep "ok"
-      #       then
-      #           return 0
-      #       else
-      #           return 1
-      #       fi
+      - run:
+          name: Get backend url
+          command: |
+            # your code here
+            # Fetch and prepare the BACKEND_IP env var
+             export BACKEND_IP=$(aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:project,Values=udapeople" \
+            --output text )
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            if curl "${API_URL}/api/status" | grep "ok"
+            then
+                return 0
+            else
+                return 1
+            fi
       - run:
           name: Backend smoke test.
           command: |
@@ -393,7 +393,7 @@ jobs:
           name: Frontend smoke test.
           command: |
             # your code here
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+            URL="http://udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
@@ -403,10 +403,10 @@ jobs:
               return 1
             fi
       # Here's where you will add some code to rollback on failure  
-      # - destroy-environment:
-      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
-      # - revert-migrations:
-      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - revert-migrations:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   cloudfront-update:
     docker:
@@ -459,36 +459,35 @@ jobs:
 workflows:
   default:
     jobs:
-      # - build-frontend
-      # - build-backend
-      # - test-frontend:
-      #     requires: [build-frontend]
-      # - test-backend:
-      #     requires: [build-backend]
-      # - scan-backend:
-      #     requires: [build-backend]
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
           
-      # - scan-frontend:
-      #     requires: [build-frontend]
+      - scan-frontend:
+          requires: [build-frontend]
           
-      - deploy-infrastructure
-          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
            
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
       - deploy-frontend:
-            requires: [deploy-infrastructure] # remove this before full pl!!!!!!!!!!!!
-          # requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [configure-infrastructure]
+          requires: [run-migrations]
+      - deploy-backend:
+          requires: [configure-infrastructure]
       - smoke-test:
           requires: [ deploy-frontend]
-      # - cloudfront-update:
-      #     requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cloudfront-update:
+          requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
           
         
 
