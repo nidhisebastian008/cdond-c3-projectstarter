@@ -208,6 +208,15 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
+      
+       - run:
+          name: Run plybk configure node exporter
+          command: |
+            pwd
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-node-exporter.yml
 
       # Here's where you will add some code to rollback on failure 
 
